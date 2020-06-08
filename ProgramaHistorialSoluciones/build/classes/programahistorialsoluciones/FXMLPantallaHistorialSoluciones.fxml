@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="1223.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="programahistorialsoluciones.FXMLDocumentController">
+    <children>
+        <Button fx:id="botonAgregarSolucion" layoutX="25.0" layoutY="70.0" onAction="#agregarSolucion" prefHeight="45.0" prefWidth="116.0" text="Agregar Solucion" />
+        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
+      <TableView fx:id="tabla" layoutX="425.0" layoutY="69.0" prefHeight="456.0" prefWidth="863.0">
+        <columns>
+            <TableColumn fx:id="colIdSolucion" prefWidth="200.0" text="Id Solucion" />
+          <TableColumn fx:id="colTitulo" prefWidth="200.0" text="Titulo Problema" />
+          <TableColumn fx:id="colBreve" prefWidth="500.0" text="Descripcion Breve Solucion" />
+        </columns>
+      </TableView>
+      <TextField fx:id="campoTitulo" layoutX="195.0" layoutY="74.0" prefHeight="66.0" prefWidth="184.0" />
+      <TextField fx:id="campoBreve" layoutX="195.0" layoutY="198.0" prefHeight="66.0" prefWidth="184.0" />
+      <Label layoutX="195.0" layoutY="47.0" text="Titulo Problema" />
+      <Label layoutX="195.0" layoutY="169.0" text="Descripcion Breve Solucion" />
+      <Label layoutX="195.0" layoutY="299.0" text="Descripcion Ampliada" />
+      <TextField fx:id="campoFiltro" layoutX="527.0" layoutY="19.0" prefHeight="25.0" prefWidth="760.0" />
+      <Label layoutX="451.0" layoutY="23.0" text="FILTRO" />
+      <Button fx:id="agregarInformacion" layoutX="25.0" layoutY="458.0" mnemonicParsing="false" onAction="#agregarDescripcionAmpliaATextArea" prefHeight="45.0" prefWidth="116.0" text="Ampliar Informacion" />
+      <TextArea fx:id="campoAmpliada" layoutX="195.0" layoutY="326.0" prefHeight="200.0" prefWidth="184.0" />
+      <Button fx:id="eliminarInformacion" layoutX="25.0" layoutY="325.0" mnemonicParsing="false" onAction="#eliminarSolucion" prefHeight="45.0" prefWidth="116.0" text="Eliminar Solucion" />
+      <Button fx:id="modificarInformacion" layoutX="25.0" layoutY="198.0" mnemonicParsing="false" onAction="#modificarSolucion" prefHeight="45.0" prefWidth="116.0" text="Modificar Solucion" />
+    </children>
+   <padding>
+      <Insets right="50.0" />
+   </padding>
+</AnchorPane>
