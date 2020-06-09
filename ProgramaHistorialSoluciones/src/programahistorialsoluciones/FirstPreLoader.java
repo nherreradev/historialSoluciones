@@ -27,54 +27,48 @@ import javafx.stage.StageStyle;
  */
 public class FirstPreLoader extends Preloader {
 
-    
-    Stage stage;
-    //ProgressBar pb;
-    
-   
+	Stage stage;
+	// ProgressBar pb;
 
-    private Scene createPreloaderScene() throws IOException {
-        String url = getClass().getResource("codeIsFunChico.jpg").toExternalForm();
-        ImageView progress = new ImageView(url);
+	private Scene createPreloaderScene() throws IOException {
+		String url = getClass().getResource("codeIsFunChico.jpg").toExternalForm();
+		ImageView progress = new ImageView(url);
 
-       //pb = new ProgressBar();
-        
-        VBox root = new VBox();
-        root.setSpacing(10.0);
-        root.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(progress);
+		// pb = new ProgressBar();
 
-        BorderPane pane = new BorderPane(root);
+		VBox root = new VBox();
+		root.setSpacing(10.0);
+		root.setAlignment(Pos.CENTER);
+		root.getChildren().addAll(progress);
 
-       //pane.setTop(pb);
+		BorderPane pane = new BorderPane(root);
 
-        return new Scene(pane, 640, 361, Color.TRANSPARENT);
-    }
+		// pane.setTop(pb);
 
-    @Override
-    public void start(Stage stage) throws Exception {
-      
+		return new Scene(pane, 640, 361, Color.TRANSPARENT);
+	}
 
-        this.stage = stage;
+	@Override
+	public void start(Stage stage) throws Exception {
 
-        stage.initStyle(StageStyle.UTILITY);
-        
-        
-        
-        stage.setScene(createPreloaderScene());
-        stage.show();
+		this.stage = stage;
 
-    }
+		stage.initStyle(StageStyle.UTILITY);
 
-    @Override
-    public void handleProgressNotification(ProgressNotification pn) {
-        //pb.setProgress(pn.getProgress());
-    }
+		stage.setScene(createPreloaderScene());
+		stage.show();
 
-    @Override
-    public void handleStateChangeNotification(StateChangeNotification evt) {
-        if (evt.getType() == StateChangeNotification.Type.BEFORE_START) {
-            stage.hide();
-        }
-    }
+	}
+
+	@Override
+	public void handleProgressNotification(ProgressNotification pn) {
+		// pb.setProgress(pn.getProgress());
+	}
+
+	@Override
+	public void handleStateChangeNotification(StateChangeNotification evt) {
+		if (evt.getType() == StateChangeNotification.Type.BEFORE_START) {
+			stage.hide();
+		}
+	}
 }

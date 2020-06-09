@@ -44,332 +44,333 @@ import static programahistorialsoluciones.FXMLDocumentController.posicionSelecci
  */
 public class FXMLDocumentController implements Initializable {
 
-    @FXML
-    private Label label;
+	@FXML
+	private Label label;
 
-    @FXML
-    TextField campoFiltro = new TextField();
+	@FXML
+	TextField campoFiltro = new TextField();
 
-    @FXML
-    Button botonAgregarSolucion;
+	@FXML
+	Button botonAgregarSolucion;
 
-    @FXML
-    Button agregarInformacion;
+	@FXML
+	Button agregarInformacion;
 
-    @FXML
-    Button eliminarInformacion;
+	@FXML
+	Button eliminarInformacion;
 
-    @FXML
-    Button modificarInformacion;
+	@FXML
+	Button modificarInformacion;
 
-    @FXML
-    TextField campoTitulo;
+	@FXML
+	TextField campoTitulo;
 
-    @FXML
-    TextField campoBreve;
+	@FXML
+	TextField campoBreve;
 
-    @FXML
-    TextArea campoAmpliada = new TextArea();
+	@FXML
+	TextArea campoAmpliada = new TextArea();
 
-    /*-----------------Lista Observable y tableView---------------*/
-    @FXML
-    TableView<ProblemaConformado> tabla = new TableView<>(); //ok				
+	/*-----------------Lista Observable y tableView---------------*/
+	@FXML
+	TableView<ProblemaConformado> tabla = new TableView<>(); // ok
 
-    @FXML
-    ObservableList<ProblemaConformado> listaObservableMaster; //ok		falta atributos privados		
+	@FXML
+	ObservableList<ProblemaConformado> listaObservableMaster; // ok falta atributos privados
 
-    @FXML
-    ObservableList<ProblemaConformado> listaObservableFiltro; //ok		falta atributos privados		
+	@FXML
+	ObservableList<ProblemaConformado> listaObservableFiltro; // ok falta atributos privados
 
-    @FXML
-    TableColumn<ProblemaConformado, String> colTitulo = new TableColumn<>();
+	@FXML
+	TableColumn<ProblemaConformado, String> colTitulo = new TableColumn<>();
 
-    @FXML
-    TableColumn<ProblemaConformado, String> colBreve = new TableColumn<>();
+	@FXML
+	TableColumn<ProblemaConformado, String> colBreve = new TableColumn<>();
 
-    @FXML
-    TableColumn<ProblemaConformado, Integer> colIdSolucion = new TableColumn<>();
+	@FXML
+	TableColumn<ProblemaConformado, Integer> colIdSolucion = new TableColumn<>();
 
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        agregarSolucion();
-    }
+	@FXML
+	private void handleButtonAction(ActionEvent event) {
+		agregarSolucion();
+	}
 
-    private void cargarTabla() {
+	private void cargarTabla() {
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
 
-        Criteria criteria = session.createCriteria(ProblemaConformado.class);
+		Criteria criteria = session.createCriteria(ProblemaConformado.class);
 
-        List<ProblemaConformado> listaCriteria = criteria.list();
+		List<ProblemaConformado> listaCriteria = criteria.list();
 
-        for (ProblemaConformado problemaConformadoi : listaCriteria) {
-            listaObservableMaster.add(new ProblemaConformado(problemaConformadoi.getIdSolucion(), problemaConformadoi.getTituloProblema(), problemaConformadoi.getDescripcionBreve()));
-        }
+		for (ProblemaConformado problemaConformadoi : listaCriteria) {
+			listaObservableMaster.add(new ProblemaConformado(problemaConformadoi.getIdSolucion(),
+					problemaConformadoi.getTituloProblema(), problemaConformadoi.getDescripcionBreve()));
+		}
 
-        listaObservableFiltro.addAll(listaObservableMaster);
+		listaObservableFiltro.addAll(listaObservableMaster);
 
-        listaObservableMaster.addListener(new ListChangeListener<ProblemaConformado>() {
-            @Override
-            public void onChanged(ListChangeListener.Change<? extends ProblemaConformado> c) {
+		listaObservableMaster.addListener(new ListChangeListener<ProblemaConformado>() {
+			@Override
+			public void onChanged(ListChangeListener.Change<? extends ProblemaConformado> c) {
 
-            }
-        });
+			}
+		});
 
-    }  //ok				
+	} // ok
 
-    public void agregarSolucion() {
+	public void agregarSolucion() {
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 
-        session.beginTransaction();
+		session.beginTransaction();
 
-        ProblemaConformado problemaConformado = new ProblemaConformado(campoTitulo.getText(), campoBreve.getText(), campoAmpliada.getText());
+		ProblemaConformado problemaConformado = new ProblemaConformado(campoTitulo.getText(), campoBreve.getText(),
+				campoAmpliada.getText());
 
-        listaObservableMaster.add(problemaConformado);
+		listaObservableMaster.add(problemaConformado);
 
-        Object problemaConformadoObjeto = session.save(problemaConformado);
+		Object problemaConformadoObjeto = session.save(problemaConformado);
 
-        session.getTransaction().commit();
+		session.getTransaction().commit();
 
-        campoTitulo.setText("");
-        campoBreve.setText("");
-        campoAmpliada.setText("");
+		campoTitulo.setText("");
+		campoBreve.setText("");
+		campoAmpliada.setText("");
 
-        actualizarDatosListaFiltrada();
+		actualizarDatosListaFiltrada();
 
-    }
+	}
 
-    private void reOrdenarLaTablaEnOrden() {
-        ArrayList<TableColumn<ProblemaConformado, ?>> sortOrder = new ArrayList<>(tabla.getSortOrder());
-        tabla.getSortOrder().clear();
-        tabla.getSortOrder().addAll(sortOrder);
-    } //ok				
+	private void reOrdenarLaTablaEnOrden() {
+		ArrayList<TableColumn<ProblemaConformado, ?>> sortOrder = new ArrayList<>(tabla.getSortOrder());
+		tabla.getSortOrder().clear();
+		tabla.getSortOrder().addAll(sortOrder);
+	} // ok
 
-    private void actualizarDatosListaFiltrada() {
+	private void actualizarDatosListaFiltrada() {
 
-        listaObservableFiltro.clear();
+		listaObservableFiltro.clear();
 
-        for (ProblemaConformado problemaConformado : listaObservableMaster) {
-            if (coincidenciasFiltradas(problemaConformado)) {
-                listaObservableFiltro.add(problemaConformado);
-            }
-        }
+		for (ProblemaConformado problemaConformado : listaObservableMaster) {
+			if (coincidenciasFiltradas(problemaConformado)) {
+				listaObservableFiltro.add(problemaConformado);
+			}
+		}
 
-        reOrdenarLaTablaEnOrden();
-    }
+		reOrdenarLaTablaEnOrden();
+	}
 
-    public boolean coincidenciasFiltradas(ProblemaConformado problema) {
+	public boolean coincidenciasFiltradas(ProblemaConformado problema) {
 
-        String textoAFiltrar = campoFiltro.getText();
+		String textoAFiltrar = campoFiltro.getText();
 
-        if (textoAFiltrar == null || textoAFiltrar.isEmpty()) {
+		if (textoAFiltrar == null || textoAFiltrar.isEmpty()) {
 
-            return true;
+			return true;
 
-        }
+		}
 
-        String textoAFiltrarEnMinuscula = textoAFiltrar.toLowerCase();
+		String textoAFiltrarEnMinuscula = textoAFiltrar.toLowerCase();
 
-        if (problema.getTituloProblema().toLowerCase().contains(textoAFiltrarEnMinuscula)) {
-            return true;
-        } else if (problema.getDescripcionBreve().toLowerCase().contains(textoAFiltrarEnMinuscula)) {
-            return true;
-        }
+		if (problema.getTituloProblema().toLowerCase().contains(textoAFiltrarEnMinuscula)) {
+			return true;
+		} else if (problema.getDescripcionBreve().toLowerCase().contains(textoAFiltrarEnMinuscula)) {
+			return true;
+		}
 
-        return false;
+		return false;
 
-    }
+	}
 
-    static int posicionSeleccionada;
-    int posicionSeleccionadaNoStatic;
+	static int posicionSeleccionada;
+	int posicionSeleccionadaNoStatic;
 
-    public static void traerDatosDeArrayList(ArrayList<String> listaQueGuardaLosDatosParaEnviarALaClaseDelTextArea) {
+	public static void traerDatosDeArrayList(ArrayList<String> listaQueGuardaLosDatosParaEnviarALaClaseDelTextArea) {
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 
-        session.beginTransaction();
+		session.beginTransaction();
 
-        Criteria criteria = session.createCriteria(ProblemaConformado.class);
+		Criteria criteria = session.createCriteria(ProblemaConformado.class);
 
-        List<ProblemaConformado> listaIdSolucionDeBaseDatos = criteria.list();
+		List<ProblemaConformado> listaIdSolucionDeBaseDatos = criteria.list();
 
-        for (ProblemaConformado listaIdSolucionDeBaseDatosi : listaIdSolucionDeBaseDatos) {
+		for (ProblemaConformado listaIdSolucionDeBaseDatosi : listaIdSolucionDeBaseDatos) {
 
-            if (idSolucionTabla == listaIdSolucionDeBaseDatosi.getIdSolucion()) {
+			if (idSolucionTabla == listaIdSolucionDeBaseDatosi.getIdSolucion()) {
 
-                listaQueGuardaLosDatosParaEnviarALaClaseDelTextArea.add(listaIdSolucionDeBaseDatosi.getDescripcionAmplia());
+				listaQueGuardaLosDatosParaEnviarALaClaseDelTextArea
+						.add(listaIdSolucionDeBaseDatosi.getDescripcionAmplia());
 
-            }
+			}
 
-        }
-    }
+		}
+	}
 
-    public static int idSolucionTabla;
+	public static int idSolucionTabla;
 
-    @FXML
-    public void agregarDescripcionAmpliaATextArea(ActionEvent event) throws IOException {
+	@FXML
+	public void agregarDescripcionAmpliaATextArea(ActionEvent event) throws IOException {
 
-        idSolucionTabla = tabla.getSelectionModel().getSelectedItems().get(posicionSeleccionada).getIdSolucion();
+		idSolucionTabla = tabla.getSelectionModel().getSelectedItems().get(posicionSeleccionada).getIdSolucion();
 
-        abrirVentanaDescripcionAmpliada();
+		abrirVentanaDescripcionAmpliada();
 
-    }
+	}
 
-    @FXML
-    public void eliminarSolucion(ActionEvent event) throws IOException {
+	@FXML
+	public void eliminarSolucion(ActionEvent event) throws IOException {
 
-        idSolucionTabla = tabla.getSelectionModel().getSelectedItems().get(posicionSeleccionada).getIdSolucion();
+		idSolucionTabla = tabla.getSelectionModel().getSelectedItems().get(posicionSeleccionada).getIdSolucion();
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 
-        session.beginTransaction();
+		session.beginTransaction();
 
-        Criteria criteria = session.createCriteria(ProblemaConformado.class);
+		Criteria criteria = session.createCriteria(ProblemaConformado.class);
 
-        List<ProblemaConformado> listaParaEliminarSolucion = criteria.list();
+		List<ProblemaConformado> listaParaEliminarSolucion = criteria.list();
 
-        for (ProblemaConformado problemaConformadoi : listaParaEliminarSolucion) {
+		for (ProblemaConformado problemaConformadoi : listaParaEliminarSolucion) {
 
-            if (idSolucionTabla == problemaConformadoi.getIdSolucion()) {
+			if (idSolucionTabla == problemaConformadoi.getIdSolucion()) {
 
-                session.delete(problemaConformadoi);
+				session.delete(problemaConformadoi);
 
-            }
+			}
 
-        }
+		}
 
-        session.getTransaction().commit();
+		session.getTransaction().commit();
 
-        ProblemaConformado selectedItem = tabla.getSelectionModel().getSelectedItem();
-        tabla.getItems().remove(selectedItem);
+		ProblemaConformado selectedItem = tabla.getSelectionModel().getSelectedItem();
+		tabla.getItems().remove(selectedItem);
 
-        refrescarTabla();
+		refrescarTabla();
 
-    }
+	}
 
-    public void refrescarTabla() {
+	public void refrescarTabla() {
 
-        tabla.getItems().clear();
+		tabla.getItems().clear();
 
-        listaObservableMaster.removeAll(listaObservableMaster);
+		listaObservableMaster.removeAll(listaObservableMaster);
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 
-        session.beginTransaction();
+		session.beginTransaction();
 
-        Criteria criteria = session.createCriteria(ProblemaConformado.class);
+		Criteria criteria = session.createCriteria(ProblemaConformado.class);
 
-        List<ProblemaConformado> listaParaReLlenarElTableView = criteria.list();
+		List<ProblemaConformado> listaParaReLlenarElTableView = criteria.list();
 
-        for (ProblemaConformado problemaConformadoi : listaParaReLlenarElTableView) {
+		for (ProblemaConformado problemaConformadoi : listaParaReLlenarElTableView) {
 
-            listaObservableMaster.add(new ProblemaConformado(problemaConformadoi.getIdSolucion(), problemaConformadoi.getTituloProblema(),
-                    problemaConformadoi.getDescripcionBreve()));
+			listaObservableMaster.add(new ProblemaConformado(problemaConformadoi.getIdSolucion(),
+					problemaConformadoi.getTituloProblema(), problemaConformadoi.getDescripcionBreve()));
 
-            tabla.getItems().add(new ProblemaConformado(problemaConformadoi.getIdSolucion(), problemaConformadoi.getTituloProblema(),
-                    problemaConformadoi.getDescripcionBreve()));
+			tabla.getItems().add(new ProblemaConformado(problemaConformadoi.getIdSolucion(),
+					problemaConformadoi.getTituloProblema(), problemaConformadoi.getDescripcionBreve()));
 
-        }
+		}
 
-        session.getTransaction().commit();
+		session.getTransaction().commit();
 
-    }
+	}
 
-    @FXML
-    public void modificarSolucion(ActionEvent event) {
+	@FXML
+	public void modificarSolucion(ActionEvent event) {
 
-        idSolucionTabla = tabla.getSelectionModel().getSelectedItems().get(posicionSeleccionada).getIdSolucion();
+		idSolucionTabla = tabla.getSelectionModel().getSelectedItems().get(posicionSeleccionada).getIdSolucion();
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 
-        session.beginTransaction();
+		session.beginTransaction();
 
-        Criteria criteria = session.createCriteria(ProblemaConformado.class);
+		Criteria criteria = session.createCriteria(ProblemaConformado.class);
 
-        List<ProblemaConformado> listaParaEliminarSolucion = criteria.list();
+		List<ProblemaConformado> listaParaEliminarSolucion = criteria.list();
 
-        for (ProblemaConformado problemaConformadoi : listaParaEliminarSolucion) {
+		for (ProblemaConformado problemaConformadoi : listaParaEliminarSolucion) {
 
-            if (idSolucionTabla == problemaConformadoi.getIdSolucion()) {
+			if (idSolucionTabla == problemaConformadoi.getIdSolucion()) {
 
-                String dataTitulo = campoTitulo.getText().trim();//read contents of text area into 'data'
-                if (!dataTitulo.equals("")) {
-                    problemaConformadoi.setTituloProblema(dataTitulo);
-                }
+				String dataTitulo = campoTitulo.getText().trim();// read contents of text area into 'data'
+				if (!dataTitulo.equals("")) {
+					problemaConformadoi.setTituloProblema(dataTitulo);
+				}
 
-                String dataBreve = campoBreve.getText().trim();//read contents of text area into 'data'
-                if (!dataBreve.equals("")) {
-                    problemaConformadoi.setDescripcionBreve(dataBreve);
-                }
+				String dataBreve = campoBreve.getText().trim();// read contents of text area into 'data'
+				if (!dataBreve.equals("")) {
+					problemaConformadoi.setDescripcionBreve(dataBreve);
+				}
 
-                String dataAmpliada = campoAmpliada.getText().trim();//read contents of text area into 'data'
-                if (!dataAmpliada.equals("")) {
-                    problemaConformadoi.setDescripcionAmplia(dataAmpliada);
-                }
+				String dataAmpliada = campoAmpliada.getText().trim();// read contents of text area into 'data'
+				if (!dataAmpliada.equals("")) {
+					problemaConformadoi.setDescripcionAmplia(dataAmpliada);
+				}
 
-                session.update(problemaConformadoi);
+				session.update(problemaConformadoi);
 
-            }
+			}
 
-        }
+		}
 
-        session.getTransaction().commit();
+		session.getTransaction().commit();
 
-        /*Funciona recordar aplicar try catch y ver que actualice la lista*/
-        refrescarTabla();
-        
-        campoTitulo.setText("");
-        campoBreve.setText("");
-        campoAmpliada.setText("");
-    }
+		/* Funciona recordar aplicar try catch y ver que actualice la lista */
+		refrescarTabla();
 
-    public void abrirVentanaDescripcionAmpliada() throws IOException {
+		campoTitulo.setText("");
+		campoBreve.setText("");
+		campoAmpliada.setText("");
+	}
 
-        Parent root = FXMLLoader.load(FXMLControllerParaTextArea.class.getResource("FXMLPantallaAmpliada.fxml"));
+	public void abrirVentanaDescripcionAmpliada() throws IOException {
 
-        Scene scene = new Scene(root);
+		Parent root = FXMLLoader.load(FXMLControllerParaTextArea.class.getResource("FXMLPantallaAmpliada.fxml"));
 
-        Stage stage = new Stage();
+		Scene scene = new Scene(root);
 
-        stage.setScene(scene);
+		Stage stage = new Stage();
 
-        stage.setResizable(false);
+		stage.setScene(scene);
 
-        stage.show();
+		stage.setResizable(false);
 
-    }
+		stage.show();
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+	}
 
-      
-        
-        campoAmpliada.setWrapText(true);
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
 
-        listaObservableMaster = FXCollections.observableArrayList();
-        listaObservableFiltro = FXCollections.observableArrayList();
+		campoAmpliada.setWrapText(true);
 
-        tabla.setItems(listaObservableMaster);
-        tabla.setItems(listaObservableFiltro);
-        tabla.setEditable(true);
+		listaObservableMaster = FXCollections.observableArrayList();
+		listaObservableFiltro = FXCollections.observableArrayList();
 
-        campoFiltro.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                actualizarDatosListaFiltrada();
-            }
-        });
+		tabla.setItems(listaObservableMaster);
+		tabla.setItems(listaObservableFiltro);
+		tabla.setEditable(true);
 
-        colTitulo.setCellValueFactory(new PropertyValueFactory<>("tituloProblema"));
+		campoFiltro.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				actualizarDatosListaFiltrada();
+			}
+		});
 
-        colBreve.setCellValueFactory(new PropertyValueFactory<>("descripcionBreve"));
+		colTitulo.setCellValueFactory(new PropertyValueFactory<>("tituloProblema"));
 
-        colIdSolucion.setCellValueFactory(new PropertyValueFactory<>("idSolucion"));
+		colBreve.setCellValueFactory(new PropertyValueFactory<>("descripcionBreve"));
 
-        cargarTabla();
+		colIdSolucion.setCellValueFactory(new PropertyValueFactory<>("idSolucion"));
 
-    }
+		cargarTabla();
+
+	}
 
 }

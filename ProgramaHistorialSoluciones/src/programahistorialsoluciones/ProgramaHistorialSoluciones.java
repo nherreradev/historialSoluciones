@@ -20,60 +20,42 @@ import javafx.stage.WindowEvent;
  */
 public class ProgramaHistorialSoluciones extends Application {
 
-    @Override
-    public void init() throws Exception {
-       Thread.sleep(1500);
-    }
+	@Override
+	public void init() throws Exception {
 
-    
-    
-    
-    
-  
-    
-    
-    
-    
-    @Override
-    public void start(Stage stage) throws Exception {
-        
-       
-       
-      
-       
-       //Thread.sleep(5000);
-       
-       
-        
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLPantallaHistorialSoluciones.fxml"));
-        
-        Scene scene = new Scene(root);
-        
-        
-        
-        root.setId("pantallaPrincipal");
-        
-        String css = ProgramaHistorialSoluciones.class.getResource("EstiloCssProgramaHistorialSoluciones.css").toExternalForm();
-        
-        scene.getStylesheets().add(css);
-        
-        stage.setScene(scene);
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                HibernateUtil.shutdown();
-            }
-        });
-        
-        stage.setResizable(true);
-        stage.show();
-    }
+	}
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
-    }
-    
+	@Override
+	public void start(Stage stage) throws Exception {
+
+		Parent root = FXMLLoader.load(getClass().getResource("FXMLPantallaHistorialSoluciones.fxml"));
+
+		Scene scene = new Scene(root);
+
+		root.setId("pantallaPrincipal");
+
+		String css = ProgramaHistorialSoluciones.class.getResource("EstiloCssProgramaHistorialSoluciones.css")
+				.toExternalForm();
+
+		scene.getStylesheets().add(css);
+
+		stage.setScene(scene);
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				HibernateUtil.shutdown();
+			}
+		});
+
+		stage.setResizable(true);
+		stage.show();
+	}
+
+	/**
+	 * @param args the command line arguments
+	 */
+	public static void main(String[] args) {
+		launch(args);
+	}
+
 }
