@@ -43,9 +43,9 @@ Contributor(s):
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/problemasresueltos</property>
-    <property name="hibernate.connection.username">root</property>
-    <property name="hibernate.connection.password">3276327632</property>
+    <property name="hibernate.connection.url">jdbc:mysql://bv89w4klcxbbumx1cbvr-mysql.services.clever-cloud.com:3306/bv89w4klcxbbumx1cbvr</property>
+    <property name="hibernate.connection.username">u1d5dpdrhrz4jblr</property>
+    <property name="hibernate.connection.password">ujDRv8PvSsON71T28iOH</property>
     <mapping class="programahistorialsoluciones.ProblemaConformado" package="programahistorialsoluciones" resource="ProblemaConformado.hbm.xml"/>
     <mapping class="programahistorialsoluciones.DescripcionAmplia" package="programahistorialsoluciones" resource="DescripcionAmplia.hbm.xml"/>
   </session-factory>
