@@ -1,2 +1,2 @@
-# historialSoluciones
-Programa para documentar soluciones encontradas a lo largo de los desarrollos
+# Historial Soluciones
+Programa para documentar soluciones encontradas a lo largo de los desarrollos.
